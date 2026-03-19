@@ -1,0 +1,16 @@
+# Karakeep OSC image based on the official all-in-one image
+# The official AIO image includes web + workers + db migrations
+# Meilisearch is required separately via MEILI_ADDR
+
+FROM ghcr.io/karakeep-app/karakeep:release
+
+# Ensure bash is available (already present in the base image)
+USER root
+
+COPY --chmod=755 osc-entrypoint.sh /usr/local/bin/osc-entrypoint.sh
+
+# Override the default port (karakeep uses 3000 by default)
+ENV PORT=3000
+EXPOSE 8080
+
+ENTRYPOINT ["/usr/local/bin/osc-entrypoint.sh"]
